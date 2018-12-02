@@ -3,12 +3,17 @@ $csv = Read-Host 'Enter the full path to where you want the .csv file to be save
 
 echo "Name,Username,Last Logon,ProxyAddresses" > $csv
 
-foreach($user in $users) {
-    $aduser = Get-ADUser -Filter {SamAccountName -eq "$user"} -properties *
+foreach($user in Get-Content $users) {
+    $line = ""
+
+    $aduser = Get-ADUser -Filter {SamAccountName -eq "$user"} -properties 
+    
     $firstlastname = $aduser.Name
     $samacctname = $aduser.SamAccountName
     $mostrecentlogon = [datetime]::FromFileTime($aduser.LastLogon).ToString('dd MMM yyyy HHmm')
     $proxyaddr = $aduser.ProxyAddresses
 
-    echo $firstlastname,$samacctname,$mostrecentlogon,$proxyaddr >> $csv
+    $line = "$firstlastname,$samacctname,$mostrecentlogon,$proxyaddr" 
+    
+    echo $line >> $csv
 }
