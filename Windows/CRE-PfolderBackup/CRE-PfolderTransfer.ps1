@@ -6,26 +6,7 @@
 # Date:     2 December 2018
 
 # get your list of users
-$users = Get-Content # path to file
-
-# map directories beforehand
-$logdir = F:\CRE_Move\Logs
-$cmsdatadir = D:\CMS-DATA
-$hypervip = 192.168.39.14
-$oldcredatadir = D:\CMS-DATA\CRE
-$newcredatadir = \\192.168.39.14\D$\CRE-DATA
-$pfolderbackup = F:\CMS-DATA\Pfolders
-$oddpfolderdir = D:\CMS-DATA\CREUsers
-$oldpfolderdir = D:\CMS-DATA\Pfolders
-$newpfolderdir = \\192.168.39.14\D$\CRE-DATA\pfolders
-
-# primary CRE data transfers (plus one excel file)
-# robocopy "$oldcredatadir" "$newcredatadir" /e /mt /xjd /z /r:5 /l /log:"$logdir\20181202_cre_primary_data_backup.log"
-robocopy "$cmsdatadir\SRS" "$newcredatadir\SRS" /e /mt /xjd /z /r:5 /l /log:"$logdir\20181202_cre_srs_data_backup.log"
-
-# pfolder CRE data transfers
-
-# Create the new pfolder directory
+$users = Get-Content 'F:\CRE_Move\CRE-user-list.txt'
 New-Item -ItemType directory -Path "$newpfolderdir"
 
 foreach($user in Get-Content $users) {
