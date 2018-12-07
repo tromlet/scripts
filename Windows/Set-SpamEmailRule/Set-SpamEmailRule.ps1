@@ -20,3 +20,4 @@ Get-Mailbox
 
 Remove-PSSession $Session
 
+(Get-MailboxJunkEmailConfiguration "Rick Kisser").BlockedSendersAndDomains

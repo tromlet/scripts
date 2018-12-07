@@ -7,9 +7,15 @@
 
 # get your list of users
 $users = Get-Content 'F:\CRE_Move\CRE-user-list.txt'
+
+# get the necessary directories listed
+$old_pfolder_dir = D:\CMS-DATA\pfolders
+$new_pfolder_dir = \\192.168.39.14\D$\CRE-DATA\pfolders
+
+
 New-Item -ItemType directory -Path "$newpfolderdir"
 
-foreach($user in Get-Content $users) {
+foreach($user in $users) {
     # First, create the user's pfolder in the correct place
     New-Item -ItemType directory -Path "$newpfolderdir\$user"
 
