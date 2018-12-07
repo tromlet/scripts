@@ -8,13 +8,21 @@ $users = Read-Host 'Enter the path to the file containing active directory users
 $outputpath = Read-Host 'Enter the path to the file where you want the user information to be stored'
 
 function Record-LastLogon () {
-    "Display Name,AD Username,LastLogon" | Out-File -FilePath $outputpath
+    "Display Name,AD Username,Last Logon,Email" | Out-File -FilePath $outputpath
 
     foreach($username in Get-Content $users) {
         $user = Get-ADUser -Filter {SamAccountName -eq $username} -Properties *
+        
+        if ($user.proxyAddresses -ne $null) {
+            $email = ($user.proxyAddresses | findstr SMTP).ToString().Remove(0,5)
+        } else {
+            $email = "No Email Address"
+        }
+        
         $user.DisplayName + ","`
          + $user.SamAccountName + ","`
          + [datetime]::FromFileTime($user.LastLogon).ToString('d MMM yyyy hh:mm:ss')`
+         + $email`
          | Out-File -FilePath $outputpath -Append
     }
 }
