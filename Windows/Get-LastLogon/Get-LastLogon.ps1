@@ -18,10 +18,10 @@ function Record-LastLogon () {
         } else {
             $email = "No Email Address"
         }
-        
+
         $user.DisplayName + ","`
          + $user.SamAccountName + ","`
-         + [datetime]::FromFileTime($user.LastLogon).ToString('d MMM yyyy hh:mm:ss')`
+         + [datetime]::FromFileTime($user.LastLogon).ToString('d MMM yyyy hh:mm:ss') + ","`
          + $email`
          | Out-File -FilePath $outputpath -Append
     }
